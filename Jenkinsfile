@@ -1,6 +1,7 @@
 pipeline {
     agent {
-        label "sys-admin-mnf"
+        label "sys-admin-mnf
+"
     }
     parameters {
         choice(name: 'BRANSH_ITI', choices: ['dev', 'test', 'prod', "release"])
@@ -30,7 +31,7 @@ pipeline {
                 echo 'deploy'
                 script {
                     if (params.BRANSH_ITI == "prod") {
-                        withCredentials([file(credentialsId: 'iti-sys-admin-mnf-kubeconfig-cred', variable: 'KUBECONFIG_ITI')]) {
+                        withCredentials([file(credentialsId: 'iti-sys-admin-mnf-Kubeconfig-cred', variable: 'KUBECONFIG_ITI')]) {
                             sh '''
                                 export BUILD_NUMBER=$(cat ../build_num.txt)
                                 mv Deployment/deploy.yaml Deployment/deploy.yaml.tmp

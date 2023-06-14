@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label "sys-admin-mnf"
-    }
+    agent any
     parameters {
         choice(name: 'ENV_ITI', choices: ['test', 'build'])
     

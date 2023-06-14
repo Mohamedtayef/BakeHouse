@@ -3,14 +3,14 @@ pipeline {
         label "sys-admin-mnf"
     }
     parameters {
-        choice(name: 'ENV_ITI', choices: ['dev', 'test', 'prod', "release"])
+        choice(name: 'ENV_ITI', choices: ['test', 'build'])
     
     stages {
         stage('build') {
             steps {
                 script {
                     echo 'build'
-                    if (params.ENV_ITI == "release") {
+                    if (params.ENV_ITI == "build") {
                         withCredentials([usernamePassword(credentialsId: 'iti-sys-admin-mnf-docker-cred', usernameVariable: 'USERNAME_SYSADMIN', passwordVariable: 'PASSWORD_SYSADMIN')]) {
                             sh """
                                 docker login -u ${USERNAME_SYSADMIN} -p ${PASSWORD_SYSADMIN}
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo 'deploy'
                 script {
-                    if (params.ENV_ITI == "dev" || params.ENV_ITI == "test" || params.ENV_ITI == "prod") {
+                    if (params.ENV_ITI == "test") {
                         withCredentials([file(credentialsId: 'iti-sys-admin-mnf-Kubeconfig-cred', variable: 'KUBECONFIG_ITI')]) {
                             sh """
                                 export BUILD_NUMBER=$(cat ../build_num.txt)

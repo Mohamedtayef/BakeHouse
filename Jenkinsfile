@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "sys-sdmin-mnf"
+    }
     parameters {
         choice(name: 'ENV_ITI', choices: ['test', 'build'])
     
